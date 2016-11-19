@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3dr-vm-Fxh">
+                                <rect key="frame" x="0.0" y="617" width="187.5" height="50"/>
+                                <color key="backgroundColor" red="0.96986220683814695" green="1" blue="0.57626584340508047" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="cWi-rn-6vg"/>
+                                </constraints>
+                                <state key="normal" title="SaveColor"/>
+                                <connections>
+                                    <action selector="saveSelectedColorToArchiver" destination="BYZ-38-t0r" eventType="touchUpInside" id="N7b-3h-jQc"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gKn-1K-b11" userLabel="SelectedColorView">
+                                <rect key="frame" x="0.0" y="40" width="375" height="497"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RfS-KE-C8Z">
+                                <rect key="frame" x="187.5" y="617" width="187.5" height="50"/>
+                                <color key="backgroundColor" red="0.91198994602930394" green="1" blue="0.89514707849562658" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="CleanCache">
+                                    <color key="titleColor" red="1" green="0.14034015959999999" blue="0.26225451420000001" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="cleanCache:" destination="BYZ-38-t0r" eventType="touchUpInside" id="GsM-xJ-sWP"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CAT-6l-fNs">
+                                <rect key="frame" x="0.0" y="537" width="375" height="80"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="8DY-m3-exW"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="3dr-vm-Fxh" firstAttribute="width" secondItem="RfS-KE-C8Z" secondAttribute="width" id="24j-HZ-Wu6"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="3dr-vm-Fxh" secondAttribute="bottom" id="281-bP-vUw"/>
+                            <constraint firstItem="RfS-KE-C8Z" firstAttribute="leading" secondItem="3dr-vm-Fxh" secondAttribute="trailing" id="4Vk-Oj-itb"/>
+                            <constraint firstAttribute="trailing" secondItem="gKn-1K-b11" secondAttribute="trailing" id="4dL-0E-vr6"/>
+                            <constraint firstItem="gKn-1K-b11" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="5zl-Sm-FC8"/>
+                            <constraint firstAttribute="trailing" secondItem="CAT-6l-fNs" secondAttribute="trailing" id="6zB-mG-Jd7"/>
+                            <constraint firstItem="CAT-6l-fNs" firstAttribute="top" secondItem="gKn-1K-b11" secondAttribute="bottom" id="7b8-K3-Bxg"/>
+                            <constraint firstItem="3dr-vm-Fxh" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="7cC-nR-uqO"/>
+                            <constraint firstAttribute="trailing" secondItem="RfS-KE-C8Z" secondAttribute="trailing" id="NIc-If-HH2"/>
+                            <constraint firstItem="3dr-vm-Fxh" firstAttribute="top" secondItem="CAT-6l-fNs" secondAttribute="bottom" id="Ot4-aM-Tcg"/>
+                            <constraint firstItem="CAT-6l-fNs" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="aBg-38-vRe"/>
+                            <constraint firstItem="gKn-1K-b11" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="40" id="bXU-vc-Dvl"/>
+                            <constraint firstItem="RfS-KE-C8Z" firstAttribute="leading" secondItem="3dr-vm-Fxh" secondAttribute="trailing" id="cb5-km-bEd"/>
+                            <constraint firstItem="3dr-vm-Fxh" firstAttribute="height" secondItem="RfS-KE-C8Z" secondAttribute="height" id="ecz-6o-ehk"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="RfS-KE-C8Z" secondAttribute="bottom" id="h2T-Fk-tLL"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="contentView" destination="gKn-1K-b11" id="MOi-5E-BKi"/>
+                        <outlet property="currentSelectedColorPreview" destination="CAT-6l-fNs" id="ExO-5a-H4O"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="373.60000000000002" y="300"/>
+        </scene>
+    </scenes>
+</document>
