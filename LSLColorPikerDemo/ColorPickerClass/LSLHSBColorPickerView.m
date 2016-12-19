@@ -1046,7 +1046,7 @@ typedef void(^ColorSelectedBlock)(UIColor *, BOOL);
     positionAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
     positionAnimation.repeatCount = 1;
     positionAnimation.duration = duration;
-    positionAnimation.fillMode = kCAFillModeForwards;
+    positionAnimation.fillMode = kCAFillModeBoth;
     positionAnimation.removedOnCompletion = NO;
     [self.dripView.layer addAnimation:positionAnimation forKey:@"positionAnimation"];
     
