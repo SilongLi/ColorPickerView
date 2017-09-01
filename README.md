@@ -2,6 +2,13 @@
 ##学习Keynote，写了个属于自己的颜色选择器，用CALayer和其子类显示颜色条，用UIWindow自己封装成MenuController等等，代码高度内聚（一个类搞定），且简单实用。
 
 
+### CocoaPods集成
+
+```objc 
+  pod 'LSLColorPickerView'
+
+```
+
 ### 一、实用说明：
 #### 1.实例化
 
@@ -43,4 +50,5 @@
 ```
 
 ###二、GIF演示
+
 ![](https://github.com/SilongLi/ColorPickerView/raw/master/LSLColorPikerDemo/GIF/colorPickerView.gif)
