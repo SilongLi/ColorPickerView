@@ -41,6 +41,12 @@
     }];
 }
 
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+    
+    self.colorPickerView.frame = self.contentView.bounds;
+}
+
 #pragma mark - save or clean colors in archiver
 
 - (IBAction)saveSelectedColorToArchiver {
