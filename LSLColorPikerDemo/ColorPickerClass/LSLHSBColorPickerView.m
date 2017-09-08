@@ -1,9 +1,9 @@
 //
 //  LSLColorPickerView.m
-//  KateMcKay
+//  LongshaoDream
 //
 //  Created by Bruce Li on 16/4/17.
-//  Copyright © 2016年 XMind. All rights reserved.
+//  Copyright © 2016年 longshao. All rights reserved.
 //
 
 #import "LSLHSBColorPickerView.h"
@@ -400,14 +400,14 @@ typedef void (^SliderValueChangeBlock)(CGFloat value, BOOL confirm);
     return self;
 }
 
-- (void)setSemiCircleColor:(UIColor *)semiCircleColor
-{
-    _semiCircleColor = semiCircleColor;
-    [self setNeedsDisplay];
+- (void)setSemiCircleColor:(UIColor *)semiCircleColor {
+    if (semiCircleColor) {
+        _semiCircleColor = semiCircleColor;
+        [self setNeedsDisplay];
+    }
 }
 
-- (void)setOnRight:(BOOL)onRight
-{
+- (void)setOnRight:(BOOL)onRight {
     _onRight = onRight;
     [self setNeedsDisplay];
 }
@@ -1119,7 +1119,7 @@ static CGFloat DripViewWithAndHeight = 38;
 
 #pragma mark - save and get selected color frome archiver
 
-- (void)saveSelectedColorToArchiver
+- (void)saveSelectedColorsToArchiver
 {
     self.color = self.centerCircleView.colorView.semiCircleColor;
     
@@ -1158,7 +1158,7 @@ static CGFloat DripViewWithAndHeight = 38;
     return [NSMutableArray array];
 }
 
-+ (void)cleanSelectedColorInArchiver
++ (void)cleanSelectedColorsInArchiver
 {
     NSString *documents = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
     NSString *path = [documents stringByAppendingPathComponent:@"preColor.archiver"];

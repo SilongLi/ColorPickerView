@@ -51,13 +51,13 @@
 
 - (IBAction)saveSelectedColorToArchiver {
     if (self.currentSelectedColor) {
-        [self.colorPickerView saveSelectedColorToArchiver];
+        [self.colorPickerView saveSelectedColorsToArchiver];
         self.currentSelectedColor = nil;
     }
 }
 
 - (IBAction)cleanCache:(id)sender {
-    [LSLHSBColorPickerView cleanSelectedColorInArchiver];
+    [LSLHSBColorPickerView cleanSelectedColorsInArchiver];
 }
 
 @end
