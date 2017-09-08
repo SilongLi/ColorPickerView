@@ -211,10 +211,10 @@ typedef void (^SliderValueChangeBlock)(CGFloat value, BOOL confirm);
         [self addSubview:_vittaView];
         
         _indicatorButton = [[UIButton alloc] init];
-        _indicatorButton.backgroundColor = [UIColor whiteColor];
-        _indicatorButton.layer.borderWidth = 0.1;
-        _indicatorButton.layer.borderColor = [UIColor colorWithWhite:0.80 alpha:1.0].CGColor;
-        _indicatorButton.layer.shadowOffset = CGSizeMake(0, 3);
+        _indicatorButton.backgroundColor     = [UIColor whiteColor];
+        _indicatorButton.layer.borderWidth   = 0.1;
+        _indicatorButton.layer.borderColor   = [UIColor colorWithWhite:0.80 alpha:1.0].CGColor;
+        _indicatorButton.layer.shadowOffset  = CGSizeMake(0, 3);
         _indicatorButton.layer.shadowRadius  = 3;
         _indicatorButton.layer.shadowOpacity = 0.2;
         
@@ -233,9 +233,10 @@ typedef void (^SliderValueChangeBlock)(CGFloat value, BOOL confirm);
 - (void)layoutSubviews {
     [super layoutSubviews];
     
+    CGPoint center = _indicatorButton.center;
     CGSize size = self.frame.size;
     CGFloat indicatorBtnWidth = size.height - 1;
-    CGFloat vittaViewWidth = size.width - indicatorBtnWidth;
+    CGFloat vittaViewWidth    = size.width - indicatorBtnWidth;
     _minX = indicatorBtnWidth * 0.5;
     _maxX = size.width - indicatorBtnWidth * 1.5;
     
@@ -244,6 +245,9 @@ typedef void (^SliderValueChangeBlock)(CGFloat value, BOOL confirm);
     
     _indicatorButton.frame = CGRectMake(_maxX, 0, indicatorBtnWidth, indicatorBtnWidth);
     _indicatorButton.layer.cornerRadius = indicatorBtnWidth * 0.5;
+    if (!CGPointEqualToPoint(center, CGPointZero)) {
+        _indicatorButton.center = center;
+    }
 }
 
 #pragma mark -
@@ -319,9 +323,8 @@ typedef void (^SliderValueChangeBlock)(CGFloat value, BOOL confirm);
         toX = self.minX;
     }
     
-    __weak typeof(self) weakSelf = self;
     [UIView animateWithDuration:duration animations:^{
-        [weakSelf.indicatorButton setCenter:CGPointMake(toX, size.width * 0.5)];
+        [self.indicatorButton setCenter:CGPointMake(toX, size.width * 0.5)];
     }];
 }
 
@@ -747,6 +750,8 @@ typedef void(^ColorSelectedBlock)(UIColor *, BOOL);
 
 @end
 
+static CGFloat DripViewWithAndHeight = 38;
+
 @implementation LSLHSBColorPickerView
 
 #pragma mark - init
@@ -777,21 +782,19 @@ typedef void(^ColorSelectedBlock)(UIColor *, BOOL);
     [_colorCircleView addSubview:_colorView];
     
     _centerCircleView = [[LSLCenterCircleView alloc] init];
-    _centerCircleView.center = CGPointMake(_radius, _radius);
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(changePreColor:)];
     [_centerCircleView addGestureRecognizer:tapRecognizer];
     [_colorCircleView addSubview:_centerCircleView];
     
-    _dripView = [[LSLDripView alloc] init];
+    _dripView  = [[LSLDripView alloc] init];
     UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(changedPositionAndColor:)];
     [_dripView addGestureRecognizer:panRecognizer];
     [_colorCircleView addSubview:_dripView];
     
     // animation to show or hidden the menu
-    _dripBtn = [[UIButton alloc] init];
+    _dripBtn = [[UIButton alloc] initWithFrame:_dripView.bounds];
     [_dripBtn addTarget:self action:@selector(showMenuByButtonClick:) forControlEvents:UIControlEventTouchDown];
     [_dripBtn addTarget:self action:@selector(hiddenMenuByButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    
     [_dripView addSubview:_dripBtn];
     [_dripView bringSubviewToFront:_dripBtn];
     
@@ -815,10 +818,17 @@ typedef void(^ColorSelectedBlock)(UIColor *, BOOL);
     [self setupSliderWithSliderName:@"brightnessSlider"];
     [self addSubview:_brightnessSlider];
     
-    
     // pre selected color view
     _favoriteColorView = [[LSLFavoriteColorView alloc] init];
     _favoriteColorView.backgroundColor = [UIColor whiteColor];
+    
+    // setup origin selected colors from local
+    NSMutableArray *colorArray = [self getSelectedColorFromeArchiver];
+    _favoriteColorView.preSelectColorArray = [colorArray mutableCopy];
+    if (colorArray.count > 0) {
+        _preColor = colorArray.firstObject;
+        _color = _preColor;
+    }
     
     __weak typeof(self) weakSelf = self;
     [_favoriteColorView preSelectColorBlock:^(UIColor *color) {
@@ -829,49 +839,6 @@ typedef void(^ColorSelectedBlock)(UIColor *, BOOL);
         [weakSelf revertSelectedColorByBlock];
     }];
     [self addSubview:_favoriteColorView];
-}
-
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
-    CGFloat magin = 10;
-    CGRect frame = self.frame;
-    CGFloat square = fmin(frame.size.height, frame.size.width);
-    frame.size = CGSizeMake(square * 0.75, square * 0.75);
-    CGFloat x = (self.frame.size.width - frame.size.width) * 0.5;
-    _radius = frame.size.width * 0.5;
-    CGFloat radiusCenter = (frame.size.width - 24) * 0.5;
-    
-    // colour circle view
-    _colorCircleView.frame = CGRectMake(x, 3, frame.size.width, frame.size.height);
-    _colorView.frame = CGRectMake(12, 12, frame.size.width - 24, frame.size.height - 24);
-    
-    _centerCircleView.frame = CGRectMake(0, 0, radiusCenter - 10, radiusCenter - 10);
-    _centerCircleView.center = CGPointMake(_radius, _radius);
-    
-    CGFloat dripViewWithAndHeight = 38;
-    _dripViewX = _radius - dripViewWithAndHeight * 0.5;
-    _dripView.frame = CGRectMake(_dripViewX, 0, dripViewWithAndHeight, dripViewWithAndHeight);
-    _dripBtn.frame  = _dripView.bounds;
-    
-    // top line View
-    _lineViewTop.frame = CGRectMake(magin * 2, CGRectGetMaxY(_colorCircleView.frame) + 3, self.frame.size.width - 4 * magin, 0.5);
-    // saturation slider
-    _saturationSlider.frame = CGRectMake(magin * 0.5, CGRectGetMaxY(_lineViewTop.frame) + 5, self.frame.size.width - magin , 28);
-    _lineViewBottom.frame = CGRectMake(magin * 2, CGRectGetMaxY(_saturationSlider.frame) + 5, self.frame.size.width - 4 * magin, 0.5);
-    _brightnessSlider.frame = CGRectMake(magin * 0.5, CGRectGetMaxY(_lineViewBottom.frame) + 5, self.frame.size.width - magin, 28);
-    
-    // pre selected color view
-    _favoriteColorView.frame = CGRectMake(0, CGRectGetMaxY(_brightnessSlider.frame) + 8, self.frame.size.width, 35);
-    
-    [self setupSliderWithSliderName:@"saturationSlider"];
-    [self setupSliderWithSliderName:@"brightnessSlider"];
-    //
-    NSMutableArray *colorArray = [self getSelectedColorFromeArchiver];
-    _favoriteColorView.preSelectColorArray = [colorArray mutableCopy];
-    if (colorArray.count > 0) {
-        [self setPreColor:colorArray.firstObject];
-    }
 }
 
 - (void)setupSliderWithSliderName:(NSString *)sliderName
@@ -888,8 +855,8 @@ typedef void(^ColorSelectedBlock)(UIColor *, BOOL);
         
         [_saturationSlider.vittaView.layer addSublayer:gradientLayer];
         [_saturationSlider sliderValueChangeBlock:^(CGFloat value, BOOL confirm) {
-            _confirm = confirm;
-            [weakSelf changeColorBySaturation:_saturationSlider];
+            weakSelf.confirm = confirm;
+            [weakSelf changeColorBySaturation:weakSelf.saturationSlider];
         }];
         
     }else if ([sliderName isEqualToString:@"brightnessSlider"]){
@@ -899,18 +866,51 @@ typedef void(^ColorSelectedBlock)(UIColor *, BOOL);
         
         [_brightnessSlider.vittaView.layer addSublayer:gradientLayer];
         [_brightnessSlider sliderValueChangeBlock:^(CGFloat value, BOOL confirm) {
-            _confirm = confirm;
-            [weakSelf changeColorByBrightness:_brightnessSlider];
+            weakSelf.confirm = confirm;
+            [weakSelf changeColorByBrightness:weakSelf.brightnessSlider];
         }];
     }
 }
 
-#pragma mark - setter
+#pragma mark - layout subviews
 
-- (void)setPreColor:(UIColor *)preColor {
-    _preColor = preColor;
+- (void)layoutSubviews {
+    [super layoutSubviews];
     
-    [self setColor:preColor];
+    _preAngle = 0.0;
+    _preTransformAngle = 0.0;
+    
+    CGFloat magin  = 10;
+    CGSize size    = self.frame.size;
+    CGFloat square = fmin(size.height, size.width);
+    size           = CGSizeMake(square * 0.75, square * 0.75);
+    CGFloat x      = (self.frame.size.width - size.width) * 0.5;
+    _radius        = size.width * 0.5;
+    _dripViewX     = _radius - DripViewWithAndHeight * 0.5;
+    CGFloat radiusCenter = (size.width - 24) * 0.5;
+    
+    // colour circle view
+    _colorCircleView.frame = CGRectMake(x, 3, size.width, size.height);
+    _colorView.frame       = CGRectMake(12, 12, size.width - 24, size.height - 24);
+    
+    _centerCircleView.frame  = CGRectMake(0, 0, radiusCenter - 10, radiusCenter - 10);
+    _centerCircleView.center = CGPointMake(_radius, _radius);
+    
+    // drip view
+    _dripView.frame = CGRectMake(_dripViewX, 0, DripViewWithAndHeight, DripViewWithAndHeight);
+    _dripBtn.frame  = _dripView.bounds;
+    
+    // line View & slider
+    _lineViewTop.frame      = CGRectMake(magin * 2, CGRectGetMaxY(_colorCircleView.frame) + 3, self.frame.size.width - 4 * magin, 0.5);
+    _saturationSlider.frame = CGRectMake(magin * 0.5, CGRectGetMaxY(_lineViewTop.frame) + 5, self.frame.size.width - magin , 28);
+    _lineViewBottom.frame   = CGRectMake(magin * 2, CGRectGetMaxY(_saturationSlider.frame) + 5, self.frame.size.width - 4 * magin, 0.5);
+    _brightnessSlider.frame = CGRectMake(magin * 0.5, CGRectGetMaxY(_lineViewBottom.frame) + 5, self.frame.size.width - magin, 28);
+    _saturationGradientLayer.frame = _saturationSlider.bounds;
+    _brightnessGradientLayer.frame = _brightnessSlider.layer.bounds;
+    
+    // pre selected color view
+    _favoriteColorView.frame = CGRectMake(0, CGRectGetMaxY(_brightnessSlider.frame) + 8, self.frame.size.width, 35);
+    
     [self updateColorAndViewPositionWithAnimation:NO];
 }
 
@@ -978,7 +978,7 @@ typedef void(^ColorSelectedBlock)(UIColor *, BOOL);
     // dripView positon
     if (isAnimation) {
         [self changeDripViewPositionWithDuration:kLSLColorPickerAnimationDuration];
-    }else{
+    } else {
         [self changeDripViewPositionWithDuration:0.01];
     }
 }
@@ -1035,7 +1035,7 @@ typedef void(^ColorSelectedBlock)(UIColor *, BOOL);
     [self changeColor];
     
     // slider color
-    [self.saturationGradientLayer setColors:[self getMultiSaturationColorWithHue:_hue brightness:_brightness ]];
+    [self.saturationGradientLayer setColors:[self getMultiSaturationColorWithHue:_hue brightness:_brightness]];
     [self.brightnessGradientLayer setColors:[self getMultiBrightnessColorWithHue:_hue saturation:_saturation]];
 }
 
@@ -1051,15 +1051,12 @@ typedef void(^ColorSelectedBlock)(UIColor *, BOOL);
     CGRect frame = self.dripView.frame;
     frame.origin.x = cx;
     frame.origin.y = cy;
-    if (CGRectEqualToRect(frame, CGRectZero)) {
-        return;
-    }
     self.dripView.frame = frame;
     
     // dripView shadow
     CGFloat offsetX = 2 * cos(currentAngle);
     CGFloat offsetY = 2 * sin(currentAngle + M_PI);
-    self.dripView.layer.shadowOffset = CGSizeMake(offsetX, offsetY);
+    self.dripView.layer.shadowOffset  = CGSizeMake(offsetX, offsetY);
     self.dripView.layer.shadowRadius  = 4;
     self.dripView.layer.shadowOpacity = 0.2;
      

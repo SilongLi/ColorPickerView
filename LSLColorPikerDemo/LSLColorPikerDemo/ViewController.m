@@ -25,7 +25,7 @@
     [super viewDidLoad];
     
     /// color picker view
-    _colorPickerView = [[LSLHSBColorPickerView alloc] initWithFrame:_contentView.bounds];
+    _colorPickerView = [[LSLHSBColorPickerView alloc] init];
     [_contentView addSubview:_colorPickerView];
     
     /// selected color preview

@@ -223,7 +223,7 @@
 				TargetAttributes = {
 					99AC12A01C300B4C0079CE4C = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = 8Y32T66G3J;
+						DevelopmentTeam = HBBKUSRZMD;
 					};
 					99AC12B91C300B4C0079CE4C = {
 						CreatedOnToolsVersion = 7.2;
@@ -429,7 +429,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 8Y32T66G3J;
+				DEVELOPMENT_TEAM = HBBKUSRZMD;
 				INFOPLIST_FILE = LSLColorPikerDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -442,7 +442,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 8Y32T66G3J;
+				DEVELOPMENT_TEAM = HBBKUSRZMD;
 				INFOPLIST_FILE = LSLColorPikerDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
