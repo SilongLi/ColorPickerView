@@ -29,8 +29,7 @@ CGFloat const kLSLColorPickerMenuAnimationDuration = 0.25;
     return self;
 }
 
-- (void)drawRect:(CGRect)rect
-{
+- (void)drawRect:(CGRect)rect {
     CGSize size = self.frame.size;
     float fw = size.width;
     float fh = size.height * 7 / 9;
@@ -78,8 +77,7 @@ CGFloat const kLSLColorPickerMenuAnimationDuration = 0.25;
 
 @implementation LSLMenuWindow
 
-+ (instancetype)shareMenuWindow
-{
++ (instancetype)shareMenuWindow {
     static LSLMenuWindow *menuWindow;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -123,20 +121,17 @@ CGFloat const kLSLColorPickerMenuAnimationDuration = 0.25;
 
 #pragma mark - getter
 
-- (CGRect)frame
-{
+- (CGRect)frame {
     return self.rootViewController.view.frame;
 }
 
 #pragma mark -
 
-- (void)updateWithFrame:(CGRect)frame
-{
+- (void)updateWithFrame:(CGRect)frame {
     self.rootViewController.view.frame = frame;
 }
 
-+ (void)animationToShowMenu
-{
++ (void)animationToShowMenu {
     [LSLMenuWindow shareMenuWindow].hidden = NO;
     
     // animation to show
@@ -151,8 +146,7 @@ CGFloat const kLSLColorPickerMenuAnimationDuration = 0.25;
     [[LSLMenuWindow shareMenuWindow].rootViewController.view.layer addAnimation:scaleAnimation forKey:@"menuWindowScaleToShow"];
 }
 
-+ (void)animationToHiddenMenu
-{
++ (void)animationToHiddenMenu {
     // animation to hidden
     CABasicAnimation *scaleAnimation = [CABasicAnimation animation];
     scaleAnimation.keyPath = @"transform.scale";
@@ -1170,15 +1164,13 @@ static CGFloat DripViewWithAndHeight = 38;
 
 #pragma mark - block
 
-- (void)colorSelectedBlock:(void (^)(UIColor *, BOOL))colorSelectedBlock
-{
+- (void)colorSelectedBlock:(void (^)(UIColor *, BOOL))colorSelectedBlock {
     if (colorSelectedBlock) {
         self.colorSelectedBlock = colorSelectedBlock;
     }
 }
 
-- (void)revertSelectedColorByBlock
-{
+- (void)revertSelectedColorByBlock {
     if (self.colorSelectedBlock) {
         self.colorSelectedBlock(self.color, self.isConfirm);
     }
