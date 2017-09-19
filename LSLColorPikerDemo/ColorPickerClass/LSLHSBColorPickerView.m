@@ -246,8 +246,7 @@ typedef void (^SliderValueChangeBlock)(CGFloat value, BOOL confirm);
 
 #pragma mark -
 
-- (void)changedIndicatorButtonPosition:(UIPanGestureRecognizer *)recognizer
-{
+- (void)changedIndicatorButtonPosition:(UIPanGestureRecognizer *)recognizer {
     CGRect frame = self.indicatorButton.frame;
     self.preX = frame.origin.x;
     
@@ -298,8 +297,7 @@ typedef void (^SliderValueChangeBlock)(CGFloat value, BOOL confirm);
     }
 }
 
-- (void)changeValue:(CGFloat)value animation:(BOOL)isAnimation
-{
+- (void)changeValue:(CGFloat)value animation:(BOOL)isAnimation {
     if (isAnimation) {
         [self changePositionAnimationWithValue:value andDuration:kLSLColorPickerAnimationDuration];
     }else{
@@ -308,8 +306,7 @@ typedef void (^SliderValueChangeBlock)(CGFloat value, BOOL confirm);
     self.value = value;
 }
 
-- (void)changePositionAnimationWithValue:(CGFloat)value andDuration:(CGFloat)duration
-{
+- (void)changePositionAnimationWithValue:(CGFloat)value andDuration:(CGFloat)duration {
     CGSize size = self.indicatorButton.frame.size;
     CGFloat vittaViewWidth = self.vittaView.frame.size.width;
     CGFloat toX = value * vittaViewWidth;
@@ -324,19 +321,16 @@ typedef void (^SliderValueChangeBlock)(CGFloat value, BOOL confirm);
 
 #pragma mark - menu
 
-- (void)hiddenMenuByButtonClick:(UIButton *)button
-{
+- (void)hiddenMenuByButtonClick:(UIButton *)button {
     [LSLMenuWindow animationToHiddenMenu];
 }
 
-- (void)showMenuByButtonClick:(UIButton *)button
-{
+- (void)showMenuByButtonClick:(UIButton *)button {
     [self changeMenuFrameAndValue];
     [LSLMenuWindow animationToShowMenu];
 }
 
-- (void)changeMenuFrameAndValue
-{
+- (void)changeMenuFrameAndValue {
     CGRect frame = self.indicatorButton.frame;
     CGRect menuFrame = [LSLMenuWindow shareMenuWindow].frame;
     CGPoint origin = [[LSLMenuWindow shareMenuWindow] convertPoint:self.indicatorButton.center fromView:self.indicatorButton.superview];
@@ -349,8 +343,7 @@ typedef void (^SliderValueChangeBlock)(CGFloat value, BOOL confirm);
 
 #pragma mark - setter
 
-- (void)setValue:(CGFloat)value
-{
+- (void)setValue:(CGFloat)value {
     if (value > 1.0) {
         value = 1.0;
     }else if (value < 0.0){
@@ -361,8 +354,7 @@ typedef void (^SliderValueChangeBlock)(CGFloat value, BOOL confirm);
 
 #pragma mark - block
 
-- (void)sliderValueChangeBlock:(void (^)(CGFloat, BOOL))sliderValueChangeBlock
-{
+- (void)sliderValueChangeBlock:(void (^)(CGFloat, BOOL))sliderValueChangeBlock {
     if (sliderValueChangeBlock) {
         self.sliderValueChangeBlock = sliderValueChangeBlock;
     }
